@@ -1,0 +1,12 @@
+{
+  "updates": {
+    "mint-upgrade-info": {
+      "type": "package",
+      "since": "2022.01.18",
+      "days": 20
+    }
+  },
+  "version": 1,
+  "checked": "2022.02.16",
+  "notified": "2022.01.17"
+}
