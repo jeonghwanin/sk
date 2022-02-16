@@ -134,4 +134,17 @@
       </metadata>
     </info>
   </bookmark>
+  <bookmark href="file:///media/sf_sharedfolder/%ED%86%A0%ED%81%B0.txt" added="2022-02-16T15:07:29Z" modified="2022-02-16T15:26:12Z" visited="1969-12-31T23:59:59Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:groups>
+          <bookmark:group>xed</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="xed" exec="&apos;xed %u&apos;" modified="2022-02-16T15:26:12Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
 </xbel>

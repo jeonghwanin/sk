@@ -2,3 +2,5 @@
 	name = jeonghwanin
 	mail = jhpc0128@naver.com
 	email = jhpc0128@naver.com
+[credential]
+	helper = cache
