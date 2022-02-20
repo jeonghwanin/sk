@@ -42,7 +42,7 @@ SECTIONS
 		*(.data)
 		*(.data*)
 		__data_end__	=	.;
-	}	>m_data_bss
+	}	>m_data_bss	AT> FLASH
 
 	.bss	:
 	{

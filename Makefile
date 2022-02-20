@@ -8,13 +8,22 @@ OC	=	arm-none-eabi-objcopy
 
 LINKER_SCRIPT	=	./rt.ld
 MAP_FILE	=	build/rt.map
-INC_DIRS	=	-I	include
 
 ASM_SRCS	=	$(wildcard	boot/*.S)
 ASM_OBJS	=	$(patsubst	boot/%.S,	build/%.os, $(ASM_SRCS))
 
-C_SRCS	=	$(wildcard	boot/*.c)
-C_OBJS	=	$(patsubst	boot/%.c,	build/%.o, $(C_SRCS))
+VPATH	=	boot	\
+				hal/stm32
+
+C_SRCS	=	$(notdir	$(wildcard	boot/*.c))
+C_SRCS	+=	$(notdir	$(wildcard	hal/stm32/*.c))	
+C_OBJS	=	$(patsubst	%.c,	build/%.o, $(C_SRCS))
+
+INC_DIRS	=	-I	include	\
+						-I	hal	\
+						-I	hal/stm32
+
+CFLAGS	=	-c	-g	-std=c11
 
 rt	=	build/rt.axf
 rt_bin	=	build/rt.bin
@@ -39,10 +48,10 @@ $(rt):	$(ASM_OBJS)	$(C_OBJS)	$(LINKER_SCRIPT)
 	$(LD)	-n	-T	$(LINKER_SCRIPT)	-o	$(rt)	$(ASM_OBJS)	$(C_OBJS)	-Map=$(MAP_FILE)
 	$(OC)	-O	binary	$(rt)	$(rt_bin)
 
-build/%.os:	$(ASM_SRCS)	
+build/%.os:	%.S	
 	mkdir	-p	$(shell	dirname	$@)
-	$(CC)	-march=$(ARCH)	-mcpu=$(MCPU)	$(INC_DIRS) -c	-g	-o	$@	$<	
+	$(CC)	-march=$(ARCH)	-mcpu=$(MCPU)	$(INC_DIRS) $(CFLAGS)	-o	$@	$<	
 
-build/%.o:	$(C_SRCS)
+build/%.o:	%.c	
 	mkdir	-p	$(shell	dirname	$@)
-	$(CC)	-march=$(ARCH)	-mcpu=$(MCPU)	$(INC_DIRS) -c	-g	-o	$@	$<	
+	$(CC)	-march=$(ARCH)	-mcpu=$(MCPU)	$(INC_DIRS) $(CFLAGS)	-o	$@	$<	

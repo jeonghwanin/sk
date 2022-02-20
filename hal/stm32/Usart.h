@@ -23,7 +23,7 @@ typedef union USART_SR_t
     uint32_t CTS:1;	// 8
 		uint32_t reserved:22;
 	} bits;
-} UART_SR;
+} USART_SR_t;
 
 typedef union USART_DR_t
 { 
@@ -33,18 +33,18 @@ typedef union USART_DR_t
 		uint32_t DR:9;	// 8:0
 		uint32_t reserved:23;
 	} bits;
-} UART_DR;
+} USART_DR_t;
 
 typedef union USART_BRR_t
 {
 // Reset value : 0000 0000 0000 0000
   uint32_t all;
   struct{
-    uint32_t DIB_FRACTIO:4;	// 3:0
+    uint32_t DIB_FRACTION:4;	// 3:0
 		uint32_t DIB_MANTISSA:12;	// 15:4
 		uint32_t reserved:16;
 	} bits;
-} USART_BRR;
+} USART_BRR_t;
 
 typedef union USART_CR1_t
 {
@@ -66,7 +66,7 @@ typedef union USART_CR1_t
 		uint32_t UE:1;	// 13
     uint32_t reserved:18;
   } bits;
-} USART_CR1;
+} USART_CR1_t;
 
 typedef union USART_CR2_t
 {
@@ -81,11 +81,11 @@ typedef union USART_CR2_t
 		uint32_t CPHA:1;	// 9
 		uint32_t CPOL:1;	// 10
 		uint32_t CLKEN:1;	// 11	
-		uint32_t STO:2;	// 13:12
+		uint32_t STOP:2;	// 13:12
 		uint32_t LINEN:1;	//14
 		uint32_t reserved:17;
   } bits;
-} USART_CR2;
+} USART_CR2_t;
 
 typedef union USART_CR3_t
 {
@@ -104,7 +104,7 @@ typedef union USART_CR3_t
 		uint32_t CTSIE:1;	// 10
 		uint32_t reserved:21;
 	} bits;
-} USART_CR3;
+} USART_CR3_t;
 
 typedef union USART_GTPR
 {
@@ -114,17 +114,17 @@ typedef union USART_GTPR
 		uint32_t GT:8;	// 15:8
 		uint32_t reserved:16;
 	} bits;
-} USART_GEPR;
+} USART_GTPR_t;
 
 typedef struct USART_t
 {
-	USART_SR usart_sr;	//0x00
-	USART_DR usart_dr;	//0x04
-	USART_BRR usart_brr;	//0x08
-	USART_CR1	usart_cr1;	//0x0c
-	USART_CR2 usart_cr2;	//0x10
-	USART_CR3 usart_cr3;	//0x14
-	USART_GTPR usart_gtpr;	//0x18
+	USART_SR_t usart_sr;	//0x00
+	USART_DR_t usart_dr;	//0x04
+	USART_BRR_t usart_brr;	//0x08
+	USART_CR1_t	usart_cr1;	//0x0c
+	USART_CR2_t usart_cr2;	//0x10
+	USART_CR3_t usart_cr3;	//0x14
+	USART_GTPR_t usart_gtpr;	//0x18
 } USART_t;
 
 
