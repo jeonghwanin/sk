@@ -1,0 +1,18 @@
+ldr r1, =__data_LMA_start__
+		ldr r2, =__data_start__
+		ldr r3, =__data_end__
+		.data_init:
+			cmp r1, r2
+			itt lt
+			ldrlt r0, [r1], #4
+			strlt r0, [r2], #4
+			blt .data_init
+
+		ldr r1, =__bss_start__
+		ldr	r2,	=__bss_end__
+		movs	r0,	#0
+		.bss_init:
+			cmp	r1,	r2
+			itt	lt
+			strlt	r0,	[r1],	#4
+			blt	.bss_init

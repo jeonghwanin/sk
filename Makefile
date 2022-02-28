@@ -6,22 +6,22 @@ AS	=	arm-none-eabi-as
 LD	=	arm-none-eabi-ld
 OC	=	arm-none-eabi-objcopy
 
-LINKER_SCRIPT	=	./rt.ld
+LINKER_SCRIPT	=	./STM32F103C8TX_FLASH.ld
 MAP_FILE	=	build/rt.map
 
 ASM_SRCS	=	$(wildcard	boot/*.S)
 ASM_OBJS	=	$(patsubst	boot/%.S,	build/%.os, $(ASM_SRCS))
 
 VPATH	=	boot	\
-				hal/stm32
+				hal/stm32f10x
 
 C_SRCS	=	$(notdir	$(wildcard	boot/*.c))
-C_SRCS	+=	$(notdir	$(wildcard	hal/stm32/*.c))	
+C_SRCS	+=	$(notdir	$(wildcard	hal/stm32f10x/*.c))	
 C_OBJS	=	$(patsubst	%.c,	build/%.o, $(C_SRCS))
 
 INC_DIRS	=	-I	include	\
 						-I	hal	\
-						-I	hal/stm32
+						-I	hal/stm32f10x
 
 CFLAGS	=	-c	-g	-std=c11
 

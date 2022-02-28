@@ -1,26 +1,17 @@
-#include "stdint.h"
-#include "HalRcc.h"
-#include "HalGpio.h"
-#include "HalUsart.h"
-
-//static void hw_init(void);
+#include	"stdint.h"
+#include	"halrcc.h"
+#include	"halgpio.h"
+#include	"halusart.h"
 
 void main(void)
 {
 
-//	hw_init();
 	rcc_init();
-	while(1){
-		gpio_enable();
-	}
-
+	gpio_init();
+	usart_init();
+	
+	while(1)
+	{
+		usart_getc();
+;	}
 }
-
-/***************************************/
-
-static void hw_init(void)
-{
-//	usart_init();
-}
-
-/***************************************/
