@@ -13,15 +13,18 @@ ASM_SRCS	=	$(wildcard	boot/*.S)
 ASM_OBJS	=	$(patsubst	boot/%.S,	build/%.os, $(ASM_SRCS))
 
 VPATH	=	boot	\
-				hal/stm32f10x
+				hal/stm32f10x	\
+				hal/armv7m
 
 C_SRCS	=	$(notdir	$(wildcard	boot/*.c))
 C_SRCS	+=	$(notdir	$(wildcard	hal/stm32f10x/*.c))	
+C_SRCS	+=	$(notdir	$(wildcard	hal/armv7m/*.c))	
 C_OBJS	=	$(patsubst	%.c,	build/%.o, $(C_SRCS))
 
 INC_DIRS	=	-I	include	\
 						-I	hal	\
-						-I	hal/stm32f10x
+						-I	hal/stm32f10x	\
+						-I	hal/armv7m
 
 CFLAGS	=	-c	-g	-std=c11
 

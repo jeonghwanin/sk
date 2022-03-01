@@ -11,6 +11,7 @@ void usart_putclear(void);
 void usart_putgoto(int32_t x, int32_t y);
 uint32_t usart_printf(const int8_t* format, ...);
 uint32_t vsprintf(int8_t* buf, const int8_t* format, __builtin_va_list arg);
+uint32_t utoa(char* buf, uint32_t val, uint32_t utoa_base);
 
 
 #endif

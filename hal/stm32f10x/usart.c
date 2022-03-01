@@ -1,6 +1,10 @@
 #include	"stdint.h"
 #include	"halusart.h"
 
+#define	PRINTF_BUF_SIZE	1024
+
+static char printf_buf[PRINTF_BUF_SIZE];
+
 extern volatile uint32_t* rcc_apb2enr;
 extern volatile	uint32_t*	rcc_apb1enr;
 extern volatile	uint32_t*	afio_mapr;
@@ -73,7 +77,7 @@ int32_t usart_putstr(int8_t* s)
 	while(*s)
 	{
 		usart_putc(*s++);
-		count++
+		count++;
 	}
 	return count;	
 }
@@ -115,12 +119,92 @@ uint32_t usart_printf(const int8_t* format, ...)
 	vsprintf(printf_buf, format, args);
 	__builtin_va_end(args);
 
-	return pustr(printf_buf); 	
+	return usart_putstr(printf_buf); 	
 }
 
 uint32_t vsprintf(int8_t* buf, const int8_t* format, __builtin_va_list arg)
 {
-	uint32_t c = 0;
+	uint32_t count = 0;
+
+	int8_t c;
+	int8_t* s;
+	uint32_t u, x;
+	uint32_t i;
+
+	for(i=0; format[i]; i++)
+	{
+		if(format[i] == '%')
+		{
+			i++;
+			switch(format[i])
+			{
+			case 'c':
+				c = (int8_t)__builtin_va_arg(arg, int32_t);
+				buf[count++] = c;
+				break;
+			case 's':
+				s = (int8_t*)__builtin_va_arg(arg, int8_t*);
+				if(s == NULL)
+				{
+					s = "null";
+				}
+				while(*s)
+				{
+					buf[count++] = (*s++);
+				}
+				break;
+			case 'u':
+				u = (uint32_t)__builtin_va_arg(arg, uint32_t);
+				count += utoa(&buf[count], u, 10);
+				break;
+			case 'x':
+				x = (uint32_t)__builtin_va_arg(arg, uint32_t);
+				count += utoa(&buf[count], x, 16);
+				break;	
+			}
+		}
+		else
+		{
+			buf[count++] = format[i];
+		}
+	}
+
+	if(c >=	PRINTF_BUF_SIZE)
+	{
+		buf[0] = '\0';
+		return 0;
+	}
+
+	buf[c] = '\0';
+
+	return c; 
+}
+
+uint32_t utoa(char* buf, uint32_t val, uint32_t utoa_base)
+{
+	uint32_t count = 0;
+	int32_t idx = 0;
+	int8_t tmp[11];
+
+	do
+	{
+		uint32_t t = val % utoa_base;
+		if(t >= 10)
+		{
+			t += 'A' - '0' -10;
+		}
+		tmp[idx] = (t + '0');
+		val /= utoa_base;
+		idx++;
+	}while(val);
+
+	idx--;
+	while(idx >= 0)
+	{
+		buf[count++] = tmp[idx];
+		idx--;
+	}
+	return count;	
 }
 
 
